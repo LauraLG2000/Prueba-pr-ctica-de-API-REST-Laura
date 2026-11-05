@@ -44,4 +44,30 @@ public class PrestamoController : ControllerBase
 
         return CreatedAtAction(nameof(getPrestamoById), new {id = prestamo.Id}, prestamo);
     }
+
+    [HttpPut("{id:int}")]
+    public ActionResult<Prestamo> putPrestamo([FromBody] Prestamo prestamo, int id)
+    {
+        Prestamo? prestamoEncontrado = listaPrestamos.FirstOrDefault(p => p.Id == id);
+        if(prestamoEncontrado is null) return NotFound($"Error: No se encuentra el préstamo con id {id}");
+
+        prestamoEncontrado.NombreLector = prestamo.NombreLector;
+        prestamoEncontrado.TituloLibro = prestamo.TituloLibro;
+        prestamoEncontrado.FechaPrestamo = prestamo.FechaPrestamo;
+        prestamoEncontrado.DuracionDias = prestamo.DuracionDias;
+        prestamoEncontrado.EsRenovable = prestamo.EsRenovable;
+
+        return NoContent();
+    }
+//DELETE /api/prestamos/{id}: elimina un préstamo existente.
+
+    [HttpDelete("{id:int}")]
+    public ActionResult deletePrestamo(int id)
+    {
+        Prestamo? prestamoEncontrado = listaPrestamos.FirstOrDefault(p => p.Id == id);
+        if(prestamoEncontrado is null) return NotFound($"Error: No se encuentra el préstamo con id {id}");
+
+        listaPrestamos.Remove(prestamoEncontrado);
+        return NoContent();
+    }
 }
