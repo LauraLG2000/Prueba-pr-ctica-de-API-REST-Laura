@@ -35,6 +35,8 @@ public class PrestamoController : ControllerBase
     [HttpPost]
     public ActionResult<Prestamo> postPrestamo([FromBody] Prestamo prestamo)
     {
+        if(string.IsNullOrEmpty(prestamo.NombreLector) || string.IsNullOrEmpty(prestamo.TituloLibro)) return BadRequest("Error: Los campos NombreLector y TituloLibro no pueden estar vacíos.");
+
           prestamo.Id = siguienteId;
           prestamo.Estado = EstadoEnum.Activo;
 
