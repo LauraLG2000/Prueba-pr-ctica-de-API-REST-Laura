@@ -45,8 +45,6 @@ public class PrestamoController : ControllerBase
         return CreatedAtAction(nameof(getPrestamoById), new {id = prestamo.Id}, prestamo);
     }
 
-    //PUT /api/prestamos/{id}: modifica el nombre del lector, el título del libro, la fecha del préstamo, la duración y EsRenovable, sin modificar el identificador ni el estado.
-
     [HttpPut("{id:int}")]
     public ActionResult<Prestamo> putPrestamo([FromBody] Prestamo prestamo, int id)
     {
@@ -62,4 +60,14 @@ public class PrestamoController : ControllerBase
         return NoContent();
     }
 //DELETE /api/prestamos/{id}: elimina un préstamo existente.
+
+    [HttpDelete("{id:int}")]
+    public ActionResult deletePrestamo(int id)
+    {
+        Prestamo? prestamoEncontrado = listaPrestamos.FirstOrDefault(p => p.Id == id);
+        if(prestamoEncontrado is null) return NotFound($"Error: No se encuentra el préstamo con id {id}");
+
+        listaPrestamos.Remove(prestamoEncontrado);
+        return NoContent();
+    }
 }
