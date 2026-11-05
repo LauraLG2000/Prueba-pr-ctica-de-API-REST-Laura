@@ -81,7 +81,7 @@ public class PrestamoController : ControllerBase
         prestamoEncontrado.Estado = EstadoEnum.Devuelto;
         return NoContent();
     }
-    
+
     [HttpGet("recientes")]
     public ActionResult<IEnumerable<Prestamo>> getPrestamosRecientes([FromQuery] int cantidad = 5)
     {
@@ -91,5 +91,15 @@ public class PrestamoController : ControllerBase
         .OrderByDescending(prestamo => prestamo.FechaPrestamo)
         .Take(cantidad)
         .ToList());
+    }
+
+    [HttpGet("buscar")]
+    public ActionResult<IEnumerable<Prestamo>> getBuscarPrestamos([FromQuery] string lector)
+    {
+        List<Prestamo> listaResultado = listaPrestamos
+            .Where(prestamo => prestamo.NombreLector.ToLower().Contains(lector.ToLower().Trim()))
+            .ToList();
+
+        return Ok(listaResultado);
     }
 }
