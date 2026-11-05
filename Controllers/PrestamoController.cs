@@ -80,6 +80,16 @@ public class PrestamoController : ControllerBase
 
         prestamoEncontrado.Estado = EstadoEnum.Devuelto;
         return NoContent();
-        
+    }
+    
+    [HttpGet("recientes")]
+    public ActionResult<IEnumerable<Prestamo>> getPrestamosRecientes([FromQuery] int cantidad = 5)
+    {
+        if(cantidad <= 0) return BadRequest("Error: La cantidad de préstamos a mostrar no puede ser menor o igual que cero");
+
+        return Ok(listaPrestamos
+        .OrderByDescending(prestamo => prestamo.FechaPrestamo)
+        .Take(cantidad)
+        .ToList());
     }
 }
