@@ -35,8 +35,11 @@ public class PrestamoController : ControllerBase
     [HttpPost]
     public ActionResult<Prestamo> postPrestamo([FromBody] Prestamo prestamo)
     {
-          prestamo.Id = siguienteId;
-          prestamo.Estado = EstadoEnum.Activo;
+        if(string.IsNullOrEmpty(prestamo.NombreLector) || string.IsNullOrEmpty(prestamo.TituloLibro)) return BadRequest("Error: Los campos NombreLector y TituloLibro no pueden estar vacíos.");
+        if(prestamo.DuracionDias < 1) return BadRequest("Error: La duración debe ser mayor que 0.");
+
+        prestamo.Id = siguienteId;
+        prestamo.Estado = EstadoEnum.Activo;
 
         listaPrestamos.Add(prestamo);
 
@@ -50,6 +53,9 @@ public class PrestamoController : ControllerBase
     {
         Prestamo? prestamoEncontrado = listaPrestamos.FirstOrDefault(p => p.Id == id);
         if(prestamoEncontrado is null) return NotFound($"Error: No se encuentra el préstamo con id {id}");
+
+        if(string.IsNullOrEmpty(prestamo.NombreLector) || string.IsNullOrEmpty(prestamo.TituloLibro)) return BadRequest("Error: Los campos NombreLector y TituloLibro no pueden estar vacíos.");
+        if(prestamo.DuracionDias < 1) return BadRequest("Error: La duración debe ser mayor que 0.");
 
         prestamoEncontrado.NombreLector = prestamo.NombreLector;
         prestamoEncontrado.TituloLibro = prestamo.TituloLibro;
