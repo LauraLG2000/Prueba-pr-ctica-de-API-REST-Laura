@@ -1,0 +1,6 @@
+@Prueba_pr_ctica_de_API_REST_Laura_HostAddress = http://localhost:5028
+
+GET {{Prueba_pr_ctica_de_API_REST_Laura_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
