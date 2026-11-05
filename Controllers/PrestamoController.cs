@@ -59,7 +59,6 @@ public class PrestamoController : ControllerBase
 
         return NoContent();
     }
-//DELETE /api/prestamos/{id}: elimina un préstamo existente.
 
     [HttpDelete("{id:int}")]
     public ActionResult deletePrestamo(int id)
@@ -69,5 +68,18 @@ public class PrestamoController : ControllerBase
 
         listaPrestamos.Remove(prestamoEncontrado);
         return NoContent();
+    }
+
+    [HttpPut("{id:int}/devolver")]
+    public ActionResult<Prestamo> devolverPrestamo(int id)
+    {
+        Prestamo? prestamoEncontrado = listaPrestamos.FirstOrDefault(p => p.Id == id);
+        if(prestamoEncontrado is null) return NotFound($"Error: No se encuentra el préstamo con id {id}");
+
+        if(prestamoEncontrado.Estado.ToString().Equals("Devuelto")) return Conflict($"Error: El estado del préstamo ya es Devuelto");
+
+        prestamoEncontrado.Estado = EstadoEnum.Devuelto;
+        return NoContent();
+        
     }
 }
