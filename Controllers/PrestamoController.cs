@@ -22,11 +22,15 @@ public class PrestamoController : ControllerBase
         return Ok(listaPrestamos);
     }
 
-    /*[HttpGet("{id:int}")]
+    [HttpGet("{id:int}")]
     public ActionResult<Prestamo> getPrestamoById(int id)
     {
+        Prestamo? prestamoEncontrado = listaPrestamos.FirstOrDefault(prestamo => prestamo.Id == id);
+
+        if(prestamoEncontrado is null) return NotFound($"Error: No se encuentra el préstamo con id {id}");
         
-    }*/
+        return Ok(prestamoEncontrado);
+    }
 
 
 }
