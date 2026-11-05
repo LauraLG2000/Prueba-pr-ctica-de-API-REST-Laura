@@ -8,7 +8,7 @@ public class Prestamo
     public DateTime FechaPrestamo{get;set;}
     public int DuracionDias{get;set;}
     public bool EsRenovable{get;set;}
-    public EstadoEnum Estado{get;set;}
+    public EstadoEnum Estado{get;set;} = EstadoEnum.Activo;
 
     public Prestamo()
     {
